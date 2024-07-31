@@ -1,0 +1,91 @@
+#include <iostream>
+#include <vector>
+#include <numeric>
+#include <set>
+#include <unordered_set>
+#include <algorithm>
+#include <cmath>
+using namespace std;
+
+int find_lower(vector<int>& vec, int x){
+    int n = vec.size();
+    int l = -1;
+    int r = n;
+
+    while(l + 1 < r){
+        int m = (l + r)/2;
+        if(vec[m] <= x){
+            l = m;
+        }
+        else{
+            r = m;
+        }
+    }
+    return l;
+}
+
+int find_upper(vector<int>& vec, int x){
+    int n = vec.size();
+    int l = -1;
+    int r = n;
+
+    while(l + 1 < r){
+        int m = (l + r)/2;
+        if(vec[m] < x){
+            l = m;
+        }
+        else{
+            r = m;
+        }
+    }
+    return r;
+}
+
+bool findv2(vector<int>& vec, int x){
+    int i = find_lower(vec, x);
+    return i >= 0 && vec[i] == x;
+}
+
+bool find(vector<int>& vec, int x){
+    int n = vec.size();
+    int l = 0;
+    int r = n - 1;
+
+    while(l <= r){
+        int m = (l + r) / 2;
+
+        if(vec[m] == x){
+            return true;
+        }
+        else if(vec[m] < x){
+            l = m + 1;
+        }
+        else{
+            r = m - 1;
+        }
+    }
+    return false;
+}
+
+int main(){
+    int n;
+    cin>>n;
+
+    vector<int> vecN(n);
+    for(auto& elem : vecN){
+        cin>>elem;
+    }
+    int k;
+    cin>>k;
+    sort(vecN.begin(), vecN.end());
+    while(k--){
+        int l, r;
+        cin>>l>>r;
+
+        int x = lower_bound(vecN.begin(), vecN.end(), l) - vecN.begin();
+        int y = upper_bound(vecN.begin(), vecN.end(), r) - vecN.begin();
+
+        cout<<y - x<<endl;
+
+    }
+}
